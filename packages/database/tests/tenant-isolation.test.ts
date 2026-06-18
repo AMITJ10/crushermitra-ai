@@ -59,10 +59,13 @@ describe("tenant isolation helpers", () => {
 describe("phase 1 RLS migration", () => {
   it("forces RLS and grants through a non-superuser app role", () => {
     const migration = readFileSync("migrations/0002_phase1_security.sql", "utf8");
+    const appRoleMembershipMigration = readFileSync("migrations/0014_grant_app_role_membership.sql", "utf8");
 
     expect(migration).toContain("create role crushermitra_app nologin");
     expect(migration).toContain("force row level security");
     expect(migration).toContain("grant select, insert, update on all tables");
+    expect(appRoleMembershipMigration).toContain("grant crushermitra_app");
+    expect(appRoleMembershipMigration).toContain("current_user");
   });
 });
 
