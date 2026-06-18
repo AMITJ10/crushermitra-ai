@@ -54,14 +54,23 @@ export async function POST(request: Request): Promise<NextResponse> {
 
 function classifyAdminLoginError(error: unknown): string {
   const details = isErrorLike(error) ? `${error.code ?? ""} ${error.message ?? ""}` : "";
-  if (details.includes("ECONNREFUSED")) {
-    return "Database is not running or DATABASE_URL is wrong. Start PostgreSQL, then run migrations.";
+  if (details.includes("ECONNREFUSED") || details.includes("ETIMEDOUT") || details.includes("ENOTFOUND") || details.includes("ECONNRESET")) {
+    return "Database connection failed. Check DATABASE_URL and Neon/Vercel networking.";
   }
-  if (details.includes("42P01") || details.includes("platform_admins")) {
-    return "Admin database tables are missing. Run pnpm.cmd db:migrate, then pnpm.cmd db:create-platform-admin.";
+  if (details.includes("42P01") || details.includes("42703") || details.includes("42P08") || details.includes("platform_admins")) {
+    return "Admin database tables are missing. Run production migrations, then create the platform admin.";
+  }
+  if (details.includes("42501")) {
+    return "Database permissions are missing. Run all migrations and grants against production.";
+  }
+  if (details.includes("28P01") || details.includes("28000")) {
+    return "Database authentication failed. Check the Vercel DATABASE_URL value.";
+  }
+  if (details.toLowerCase().includes("ssl")) {
+    return "Database SSL connection failed. Use a Neon pooled URL with sslmode=require.";
   }
   if (details.includes("AUTH_SECRET") || details.includes("ADMIN_AUTH_SECRET")) {
-    return "ADMIN_AUTH_SECRET or AUTH_SECRET is missing or shorter than 32 characters.";
+    return "ADMIN_AUTH_SECRET, AUTH_SECRET or NEXTAUTH_SECRET is missing or shorter than 32 characters.";
   }
   return "Admin login cannot be checked right now. Verify PostgreSQL, migrations and platform admin setup.";
 }

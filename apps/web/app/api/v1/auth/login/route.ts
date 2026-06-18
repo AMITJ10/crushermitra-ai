@@ -111,14 +111,23 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function classifyLoginError(error: unknown): string {
   const details = isErrorLike(error) ? `${error.code ?? ""} ${error.message ?? ""}` : "";
-  if (details.includes("ECONNREFUSED")) {
-    return "Database is not running or DATABASE_URL is wrong. Start PostgreSQL, then run migrations.";
+  if (details.includes("ECONNREFUSED") || details.includes("ETIMEDOUT") || details.includes("ENOTFOUND") || details.includes("ECONNRESET")) {
+    return "Database connection failed. Check DATABASE_URL and Neon/Vercel networking.";
   }
-  if (details.includes("42P01")) {
-    return "Database tables are missing. Run pnpm.cmd db:migrate and pnpm.cmd db:seed.";
+  if (details.includes("42P01") || details.includes("42703") || details.includes("42P08")) {
+    return "Database schema is not migrated. Run production migrations against the Vercel DATABASE_URL.";
+  }
+  if (details.includes("42501")) {
+    return "Database permissions are missing. Run all migrations and grants against production.";
+  }
+  if (details.includes("28P01") || details.includes("28000")) {
+    return "Database authentication failed. Check the Vercel DATABASE_URL value.";
+  }
+  if (details.toLowerCase().includes("ssl")) {
+    return "Database SSL connection failed. Use a Neon pooled URL with sslmode=require.";
   }
   if (details.includes("AUTH_SECRET")) {
-    return "AUTH_SECRET is missing or shorter than 32 characters.";
+    return "AUTH_SECRET or NEXTAUTH_SECRET is missing or shorter than 32 characters.";
   }
   return "Server temporarily unavailable. Please try again.";
 }

@@ -27,10 +27,10 @@ export function resolveSessionFromToken(token?: string): SessionTenantContext | 
 }
 
 export function getAuthSecret(): string {
-  const secret = process.env.AUTH_SECRET;
+  const secret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
 
   if (!secret || secret.length < 32) {
-    throw new Error("AUTH_SECRET must be set to at least 32 characters.");
+    throw new Error("AUTH_SECRET or NEXTAUTH_SECRET must be set to at least 32 characters.");
   }
 
   return secret;
