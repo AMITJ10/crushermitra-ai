@@ -1,0 +1,35 @@
+[project]
+name = "crushermitra-ai-service"
+version = "0.1.0"
+description = "FastAPI AI and industrial data-processing service for CrusherMitra AI."
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115.6",
+  "uvicorn[standard]>=0.34.0",
+  "pydantic>=2.10.5",
+  "pydantic-settings>=2.7.1",
+  "sqlalchemy>=2.0.37",
+  "alembic>=1.14.0",
+  "redis>=5.2.1",
+  "celery>=5.4.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx2>=0.28.0",
+  "pytest>=8.3.4",
+  "ruff>=0.9.2"
+]
+
+[tool.ruff]
+line-length = 100
+exclude = [
+  "pytest-cache-files-*",
+  ".pytest_cache",
+  ".ruff_cache",
+  "__pycache__"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

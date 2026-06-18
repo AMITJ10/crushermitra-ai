@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CrusherMitra AI Phase 1 Preview</title>
+    <style>
+      :root {
+        --ink: #18212b;
+        --muted: #5b6776;
+        --line: #cfd7d1;
+        --panel: #ffffff;
+        --page: #f7f8f4;
+        --green: #168a4a;
+        --amber: #a56205;
+        --red: #b42318;
+        --blue: #1d5fd0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 240px 1fr;
+      }
+      aside {
+        background: #202a33;
+        color: white;
+        padding: 20px 14px;
+      }
+      .brand {
+        font-weight: 800;
+        font-size: 20px;
+        margin-bottom: 22px;
+      }
+      nav {
+        display: grid;
+        gap: 6px;
+      }
+      nav a {
+        color: #e9eef2;
+        text-decoration: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 650;
+      }
+      nav a:first-child {
+        background: #34414e;
+      }
+      main {
+        min-width: 0;
+      }
+      header {
+        background: white;
+        border-bottom: 1px solid var(--line);
+        padding: 16px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        margin: 4px 0 0;
+        font-size: 28px;
+      }
+      .eyebrow {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .selectors {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: white;
+        padding: 9px 12px;
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .grid {
+        padding: 18px 22px;
+        display: grid;
+        gap: 14px;
+      }
+      .metrics {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .metric-label {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .metric-value {
+        margin-top: 10px;
+        font-size: 28px;
+        font-weight: 850;
+      }
+      .metric-detail {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .content {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      }
+      .rows {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 110px 1fr 170px;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        align-items: center;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        font-size: 13px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .ok {
+        color: var(--green);
+      }
+      .warn {
+        color: var(--amber);
+      }
+      .info {
+        color: var(--blue);
+      }
+      .critical {
+        color: var(--red);
+      }
+      .mobile-bar {
+        display: none;
+      }
+      @media (max-width: 900px) {
+        .shell {
+          display: block;
+          padding-bottom: 72px;
+        }
+        aside {
+          display: none;
+        }
+        .metrics,
+        .content {
+          grid-template-columns: 1fr;
+        }
+        .row {
+          grid-template-columns: 1fr;
+        }
+        .mobile-bar {
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          background: white;
+          border-top: 1px solid var(--line);
+        }
+        .mobile-bar a {
+          padding: 12px 4px;
+          color: var(--ink);
+          text-align: center;
+          text-decoration: none;
+          font-weight: 750;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside>
+        <div class="brand">CrusherMitra AI</div>
+        <nav>
+          <a href="#">Dashboard</a>
+          <a href="#">Weighbridge</a>
+          <a href="#">Dispatch</a>
+          <a href="#">Production</a>
+          <a href="#">Inventory</a>
+          <a href="#">Compliance</a>
+          <a href="#">AI Assistant</a>
+        </nav>
+      </aside>
+      <main>
+        <header>
+          <div>
+            <div class="eyebrow">Shivneri Aggregates and Concrete Pvt. Ltd.</div>
+            <h1>Owner operations dashboard</h1>
+          </div>
+          <div class="selectors">
+            <span class="pill">Pune Crusher Plant</span>
+            <span class="pill">Today</span>
+            <span class="pill">EN / HI / MR ready</span>
+          </div>
+        </header>
+        <section class="grid metrics" aria-label="Operational metrics">
+          <article class="card">
+            <div class="metric-label">Crusher production</div>
+            <div class="metric-value">1,248 t</div>
+            <div class="metric-detail">Today versus 1,110 t yesterday</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">RMC production</div>
+            <div class="metric-value">286 m3</div>
+            <div class="metric-detail">M20, M25 and M30 grades</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Dispatch quantity</div>
+            <div class="metric-value">972 t</div>
+            <div class="metric-detail">38 trips, 4 delayed</div>
+          </article>
+          <article class="card">
+            <div class="metric-label">Receivables</div>
+            <div class="metric-value">Rs. 42.8L</div>
+            <div class="metric-detail">7 accounts over credit days</div>
+          </article>
+        </section>
+        <section class="grid content">
+          <article class="card">
+            <h2>Operations queue</h2>
+            <div class="rows">
+              <div class="row">
+                <strong>WB-1028</strong>
+                <span>20 mm aggregate dispatch to Wagholi Site</span>
+                <span class="status info"><span class="dot"></span>Second weight</span>
+              </div>
+              <div class="row">
+                <strong>RUN-44</strong>
+                <span>Crusher shift run has 3.8% material-balance variance</span>
+                <span class="status warn"><span class="dot"></span>Reason needed</span>
+              </div>
+              <div class="row">
+                <strong>RMC-018</strong>
+                <span>M25 batch has manual water addition request</span>
+                <span class="status critical"><span class="dot"></span>Approval needed</span>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <h2>Phase 1 foundation</h2>
+            <p>
+              The monorepo now has app shells, tenant/security architecture, database SQL, Docker Compose,
+              environment configuration, i18n namespaces, audit foundations, seed skeleton and CI wiring.
+            </p>
+            <p class="status ok"><span class="dot"></span>Static localhost preview is running from apps/web/public</p>
+          </article>
+        </section>
+      </main>
+    </div>
+    <nav class="mobile-bar" aria-label="Mobile navigation">
+      <a href="#">Dashboard</a>
+      <a href="#">Orders</a>
+      <a href="#">Dispatch</a>
+      <a href="#">Ops</a>
+      <a href="#">More</a>
+    </nav>
+  </body>
+</html>
+

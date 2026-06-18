@@ -1,0 +1,10 @@
+{
+  "name": "CrusherMitra AI",
+  "short_name": "CrusherMitra",
+  "start_url": "/en",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#17212b",
+  "icons": []
+}
+

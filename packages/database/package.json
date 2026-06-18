@@ -1,0 +1,28 @@
+{
+  "name": "@crushermitra/database",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:postgres": "node scripts/verify-postgres.mjs",
+    "migrate": "node scripts/run-sql-files.mjs migrations",
+    "migrate:phase2": "node scripts/run-sql-file.mjs migrations/0003_master_data.sql",
+    "migrate:workflows": "node scripts/run-sql-file.mjs migrations/0004_workflow_modules.sql",
+    "migrate:phase3": "node scripts/run-sql-file.mjs migrations/0005_admin_billing_ai_approvals.sql",
+    "migrate:phase4": "node scripts/run-sql-file.mjs migrations/0008_inventory_ledger_phase4.sql",
+    "seed": "node scripts/run-sql-files.mjs seeds"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "headline": "औद्योगिक कामकाज, tenant-aware access ने सुरक्षित.",
+    "signIn": "साइन इन",
+    "demoHint": "आपल्या संस्थेच्या credentials ने साइन इन करा. Local development मध्ये seeded owner account environment variables ने सक्षम करता येतो.",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "continue": "पुढे जा",
+    "error": "या credentials ने साइन इन झाले नाही.",
+    "tenantSafe": "Organisation आणि plant context server-side ठरवला जातो.",
+    "auditReady": "Sensitive actions audit trail साठी design केले आहेत.",
+    "localised": "English, Hindi आणि Marathi enabled आहेत."
+  },
+  "dashboard": {
+    "title": "मालक संचालन डॅशबोर्ड",
+    "online": "ऑनलाइन",
+    "approvalsPending": "3 approvals pending",
+    "logout": "लॉगआउट",
+    "operationsQueue": "Operations queue",
+    "aiSafetyPanel": "AI safety panel",
+    "aiSafetyText": "AI recommendations advisory आहेत. Stock, weighment, mix-design, payment, compliance आणि machine-control actions साठी human approval आणि audit आवश्यक आहे."
+  },
+  "navigation": {
+    "dashboard": "डॅशबोर्ड",
+    "masterData": "मास्टर डेटा",
+    "orders": "ऑर्डर",
+    "dispatch": "डिस्पॅच",
+    "operations": "ऑपरेशन्स",
+    "more": "अधिक"
+  },
+  "masterData": {
+    "title": "मास्टर डेटा",
+    "subtitle": "ग्राहक, साइट, पुरवठादार, उत्पादने, युनिट, किंमती, वाहने, ड्रायव्हर, मशीन आणि स्टोरेज लोकेशन tenant-aware controls सह सांभाळा."
+  }
+}

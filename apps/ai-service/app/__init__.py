@@ -1,0 +1,2 @@
+"""CrusherMitra AI FastAPI service."""
+

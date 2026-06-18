@@ -1,0 +1,42 @@
+{
+  "name": "crushermitra-ai",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Multi-tenant SaaS ERP and AI operations platform for Indian stone crushers, quarries, aggregate suppliers and RMC plants.",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.11.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @crushermitra/web dev",
+    "dev:web": "pnpm --filter @crushermitra/web dev",
+    "dev:ai": "cd apps/ai-service && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:worker": "pnpm --filter @crushermitra/worker dev",
+    "preview:static": "node infrastructure/scripts/preview-server.mjs",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm -r test",
+    "test:integration": "pnpm --filter @crushermitra/database test",
+    "test:postgres": "pnpm --filter @crushermitra/database test:postgres",
+    "test:e2e": "playwright test",
+    "build": "pnpm -r build",
+    "docker:up": "docker compose up -d postgres redis minio",
+    "docker:down": "docker compose down",
+    "db:migrate": "pnpm --filter @crushermitra/database migrate",
+    "db:migrate:phase2": "pnpm --filter @crushermitra/database migrate:phase2",
+    "db:migrate:workflows": "pnpm --filter @crushermitra/database migrate:workflows",
+    "db:migrate:phase3": "pnpm --filter @crushermitra/database migrate:phase3",
+    "db:migrate:phase4": "pnpm --filter @crushermitra/database migrate:phase4",
+    "db:seed": "pnpm --filter @crushermitra/database seed",
+    "format": "prettier --check ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^22.10.7",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "headline": "Industrial operations, protected by tenant-aware access.",
+    "signIn": "Sign in",
+    "demoHint": "Use your organisation credentials. Local development can enable a seeded owner account through environment variables.",
+    "email": "Email",
+    "password": "Password",
+    "continue": "Continue",
+    "error": "Could not sign in with those credentials.",
+    "tenantSafe": "Organisation and plant context are resolved server-side.",
+    "auditReady": "Sensitive actions are designed for audit trails.",
+    "localised": "English, Hindi and Marathi are enabled."
+  },
+  "dashboard": {
+    "title": "Owner operations dashboard",
+    "online": "Online",
+    "approvalsPending": "3 approvals pending",
+    "logout": "Logout",
+    "operationsQueue": "Operations queue",
+    "aiSafetyPanel": "AI safety panel",
+    "aiSafetyText": "AI recommendations are advisory. Stock, weighment, mix-design, payment, compliance and machine-control actions require human approval and audit."
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "masterData": "Master data",
+    "orders": "Orders",
+    "dispatch": "Dispatch",
+    "operations": "Operations",
+    "more": "More"
+  },
+  "masterData": {
+    "title": "Master data",
+    "subtitle": "Manage customers, sites, suppliers, products, units, prices, vehicles, drivers, machines and storage locations with tenant-aware controls."
+  }
+}

@@ -1,0 +1,106 @@
+import { NextResponse } from "next/server";
+import { authenticateDemoUser } from "@crushermitra/auth";
+import { loginSchema } from "@crushermitra/validation";
+import { createSessionCookieValue, sessionCookieName } from "../../../../../lib/session";
+
+const defaultLocale = "en";
+const genericFailure = "authentication_failed";
+
+export async function POST(request: Request) {
+  const { isJson, payload } = await parseLoginPayload(request);
+  const locale = String(payload.locale ?? defaultLocale);
+  const parsed = loginSchema.safeParse(payload);
+
+  if (!parsed.success) {
+    return loginFailure(request.url, locale, isJson);
+  }
+
+  try {
+    const result = authenticateDemoUser(parsed.data.email, parsed.data.password);
+
+    if (!result.context) {
+      console.info("Authentication failed", {
+        email: parsed.data.email.trim().toLowerCase(),
+        reason: result.auditEvent.reason
+      });
+      return loginFailure(request.url, locale, isJson);
+    }
+
+    if (isJson) {
+      const response = NextResponse.json({ ok: true, redirectTo: `/${safeLocale(locale)}` });
+      setSessionCookie(response, result.context);
+      return response;
+    }
+
+    const response = NextResponse.redirect(new URL(`/${safeLocale(locale)}`, request.url));
+    setSessionCookie(response, result.context);
+    return response;
+  } catch (error) {
+    console.error("Authentication error", error);
+    return isJson
+      ? NextResponse.json({ error: "Unable to authenticate" }, { status: 500 })
+      : redirectToLogin(request.url, locale, "server_error");
+  }
+}
+
+function redirectToLogin(requestUrl: string, locale: string, error: string): NextResponse {
+  const url = new URL(`/${safeLocale(locale)}/login`, requestUrl);
+  url.searchParams.set("error", error);
+  return NextResponse.redirect(url);
+}
+
+async function parseLoginPayload(request: Request): Promise<{
+  isJson: boolean;
+  payload: Record<string, unknown>;
+}> {
+  const contentType = request.headers.get("content-type") ?? "";
+  const isJson = contentType.includes("application/json");
+
+  try {
+    if (isJson) {
+      const body = await request.json();
+      return {
+        isJson,
+        payload: isRecord(body) ? body : {}
+      };
+    }
+
+    const formData = await request.formData();
+    return {
+      isJson,
+      payload: {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        locale: formData.get("locale")
+      }
+    };
+  } catch {
+    return { isJson, payload: {} };
+  }
+}
+
+function loginFailure(requestUrl: string, locale: string, isJson: boolean): NextResponse {
+  if (isJson) {
+    return NextResponse.json({ error: "Could not sign in with those credentials." }, { status: 401 });
+  }
+
+  return redirectToLogin(requestUrl, locale, genericFailure);
+}
+
+function setSessionCookie(response: NextResponse, context: Parameters<typeof createSessionCookieValue>[0]) {
+  response.cookies.set(sessionCookieName, createSessionCookieValue(context), {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.APP_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 8
+  });
+}
+
+function safeLocale(locale: string): string {
+  return ["en", "hi", "mr"].includes(locale) ? locale : defaultLocale;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
