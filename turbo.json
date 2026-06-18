@@ -3,6 +3,8 @@
   "globalEnv": [
     "DATABASE_URL",
     "DIRECT_URL",
+    "AUTH_SECRET",
+    "ADMIN_AUTH_SECRET",
     "NEXTAUTH_SECRET",
     "NEXTAUTH_URL",
     "APP_ENV",
