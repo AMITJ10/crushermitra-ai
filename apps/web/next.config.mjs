@@ -5,8 +5,18 @@ import { fileURLToPath } from "node:url";
 const withNextIntl = createNextIntlPlugin();
 const appDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(appDirectory, "../..");
-const ignoredWatchPaths =
-  /(?:[A-Z]:[\\/](?:DumpStack\.log\.tmp|hiberfil\.sys|pagefile\.sys|swapfile\.sys)$|[\\/](?:node_modules|\.git|\.next|\.pnpm-store|\.ruff_cache|\.venv)[\\/])/i;
+const ignoredWatchPaths = [
+  "**/node_modules/**",
+  "**/.git/**",
+  "**/.next/**",
+  "**/.pnpm-store/**",
+  "**/.ruff_cache/**",
+  "**/.venv/**",
+  "C:/DumpStack.log.tmp",
+  "C:/hiberfil.sys",
+  "C:/pagefile.sys",
+  "C:/swapfile.sys"
+];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

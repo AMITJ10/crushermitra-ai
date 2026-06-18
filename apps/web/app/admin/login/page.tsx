@@ -27,7 +27,7 @@ export default async function AdminLoginPage({
         {error ? <div className="border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">{error}</div> : null}
         <label className="grid gap-1 text-sm font-semibold text-slate-700">
           Email
-          <input className="min-h-11 rounded-md border border-slate-300 px-3 text-sm" name="email" placeholder="admin@example.com" required type="email" />
+          <input className="min-h-11 rounded-md border border-slate-300 px-3 text-sm" name="email" placeholder="amitjadhav7383@gmail.com" required type="email" />
         </label>
         <label className="grid gap-1 text-sm font-semibold text-slate-700">
           Password

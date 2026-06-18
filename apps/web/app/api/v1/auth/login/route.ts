@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { authenticateDemoUser } from "@crushermitra/auth";
 import { loginSchema } from "@crushermitra/validation";
+import { authenticateDatabaseUser } from "../../../../../lib/auth-database";
 import { createSessionCookieValue, sessionCookieName } from "../../../../../lib/session";
 
 const defaultLocale = "en";
@@ -16,7 +17,10 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = authenticateDemoUser(parsed.data.email, parsed.data.password);
+    const databaseContext = await authenticateDatabaseUser(parsed.data.email, parsed.data.password);
+    const result = databaseContext
+      ? { context: databaseContext, auditEvent: { reason: undefined } }
+      : authenticateDemoUser(parsed.data.email, parsed.data.password);
 
     if (!result.context) {
       console.info("Authentication failed", {
@@ -38,8 +42,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Authentication error", error);
     return isJson
-      ? NextResponse.json({ error: "Unable to authenticate" }, { status: 500 })
-      : redirectToLogin(request.url, locale, "server_error");
+      ? NextResponse.json({ error: classifyLoginError(error) }, { status: 500 })
+      : redirectToLogin(request.url, locale, classifyLoginError(error));
   }
 }
 
@@ -102,5 +106,23 @@ function safeLocale(locale: string): string {
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function classifyLoginError(error: unknown): string {
+  const details = isErrorLike(error) ? `${error.code ?? ""} ${error.message ?? ""}` : "";
+  if (details.includes("ECONNREFUSED")) {
+    return "Database is not running or DATABASE_URL is wrong. Start PostgreSQL, then run migrations.";
+  }
+  if (details.includes("42P01")) {
+    return "Database tables are missing. Run pnpm.cmd db:migrate and pnpm.cmd db:seed.";
+  }
+  if (details.includes("AUTH_SECRET")) {
+    return "AUTH_SECRET is missing or shorter than 32 characters.";
+  }
+  return "Server temporarily unavailable. Please try again.";
+}
+
+function isErrorLike(value: unknown): value is { code?: string; message?: string } {
   return typeof value === "object" && value !== null;
 }

@@ -6,7 +6,7 @@ export const adminSessionCookieName = "crushermitra_admin_session";
 export interface AdminSession {
   email: string;
   name: string;
-  role: "Owner Admin" | "Super Admin";
+  role: "Platform Admin";
   sessionId: string;
 }
 
@@ -71,6 +71,6 @@ function isAdminSession(value: unknown): value is AdminSession {
     typeof candidate.email === "string" &&
     typeof candidate.name === "string" &&
     typeof candidate.sessionId === "string" &&
-    (candidate.role === "Owner Admin" || candidate.role === "Super Admin")
+    candidate.role === "Platform Admin"
   );
 }

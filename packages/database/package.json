@@ -15,7 +15,8 @@
     "migrate:workflows": "node scripts/run-sql-file.mjs migrations/0004_workflow_modules.sql",
     "migrate:phase3": "node scripts/run-sql-file.mjs migrations/0005_admin_billing_ai_approvals.sql",
     "migrate:phase4": "node scripts/run-sql-file.mjs migrations/0008_inventory_ledger_phase4.sql",
-    "seed": "node scripts/run-sql-files.mjs seeds"
+    "seed": "node scripts/run-sql-files.mjs seeds",
+    "create-platform-admin": "node scripts/create-platform-admin.mjs"
   },
   "dependencies": {
     "pg": "^8.13.1"

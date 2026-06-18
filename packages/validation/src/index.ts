@@ -56,7 +56,60 @@ export const organisationOnboardingSchema = z.object({
 
 export const loginSchema = z.object({
   email: z.string().email().max(254),
-  password: z.string().min(10).max(256)
+  password: z.string().min(8).max(256)
+});
+
+export const signupSchema = z.object({
+  fullName: trimmedString(2, 120),
+  email: z.string().email().max(254),
+  password: z.string().min(8, "Password must be at least 8 characters.").max(256),
+  confirmPassword: z.string().min(8).max(256),
+  organisationName: trimmedString(2, 200),
+  mobile: indianMobileSchema,
+  businessType: z.enum(["stone_crusher", "rmc_plant", "crusher_rmc", "quarry", "aggregate_supplier", "transporter"]),
+  state: trimmedString(2, 80).default("Maharashtra"),
+  district: trimmedString(2, 80).default("Pune"),
+  defaultPlantName: trimmedString(2, 160).optional(),
+  termsAccepted: z.coerce.boolean(),
+  locale: z.enum(["en", "hi", "mr"]).default("en"),
+  pan: panSchema.optional(),
+  pincode: pincodeSchema
+}).superRefine((value, context) => {
+  if (value.password !== value.confirmPassword) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["confirmPassword"],
+      message: "Passwords must match."
+    });
+  }
+
+  if (!value.termsAccepted) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["termsAccepted"],
+      message: "Terms must be accepted."
+    });
+  }
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email().max(254),
+  locale: z.enum(["en", "hi", "mr"]).default("en")
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().trim().min(32).max(256),
+  password: z.string().min(8, "Password must be at least 8 characters.").max(256),
+  confirmPassword: z.string().min(8).max(256),
+  locale: z.enum(["en", "hi", "mr"]).default("en")
+}).superRefine((value, context) => {
+  if (value.password !== value.confirmPassword) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["confirmPassword"],
+      message: "Passwords must match."
+    });
+  }
 });
 
 export const plantSelectionSchema = z.object({

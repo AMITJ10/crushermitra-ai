@@ -30,6 +30,7 @@
     "db:migrate:phase3": "pnpm --filter @crushermitra/database migrate:phase3",
     "db:migrate:phase4": "pnpm --filter @crushermitra/database migrate:phase4",
     "db:seed": "pnpm --filter @crushermitra/database seed",
+    "db:create-platform-admin": "pnpm --filter @crushermitra/database create-platform-admin",
     "format": "prettier --check ."
   },
   "devDependencies": {
